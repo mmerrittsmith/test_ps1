@@ -1,0 +1,177 @@
+---
+title: Problem Set 1
+author: 'Who Dis????'
+jupyter: python3
+format: 
+  html: 
+    css: styles.css
+---
+
+```{python}
+import polars as pl
+import numpy as np
+```
+
+
+# Potential Outcomes
+Please complete the following questions that ask you to define terminology.
+
+## Part (a)
+
+In two sentences, explain the notation $Y^{obs}_{i}(1)$.
+
+::: {.answer}
+Fill this in.
+:::
+
+## Part (b)
+
+In two sentences, explain the notation $Y^{mis}_{i}(0)$.
+
+::: {.answer} 
+Fill this in.
+::: 
+
+
+# Properties of Expectation
+
+```{python}
+table = pl.DataFrame({
+    "subject": np.arange(7), 
+    "y_0": [10, 12, 15, 11, 10, 17, 16], 
+    "y_1": [12, 12, 18, 14, 15, 18, 16], 
+    "tau": [2, 0, 3, 3, 5, 1, 0]
+    })
+```
+
+```{python}
+table
+```
+
+## Illustration
+
+Use the values in the table to illustrate that $E[Y_i(1)]-E[Y_i(0)] = E[Y_i(1) - Y_i(0)]$.
+
+To do so, please write code that will index to the correct values in the table and calculate the difference between $E[Y_i(1)]$ and $E[Y_i(0)]$ for each subject. Then, calculate the average of these differences.
+
+```{python}
+#| label: compute-values
+# Use this code chunk to show your code work
+
+left_side  = 'fill this in'
+right_side = 'fill this in'
+```
+
+```{python}
+assert(left_side == right_side)
+```
+
+## Data Possibilities
+
+Is it possible to collect all necessary values and construct a table like the one provided in real life? Explain why or why not?
+
+::: {.answer} 
+Fill this in.
+:::
+
+# Visual Acuity
+
+Suppose we are interested in the hypothesis that children playing outside leads them to have better eyesight.
+
+Consider the following population of ten children whose visual acuity we can measure.
+
+-  Visual acuity is the decimal version of the fraction given as output in standard eye exams.
+-  Someone with 20/20 vision has acuity 1.0, while someone with 20/40 vision has acuity 0.5.
+-  Numbers greater than 1.0 are possible for people with better than “normal” visual acuity.
+
+```{python}
+visual_acuity = pl.DataFrame({
+    "child": np.arange(10), 
+    "acuity_control": [1.2, 1.1, 0.5, 0.8, 1.5, 2.0, 1.3, 0.7, 1.1, 1.4], 
+    "acuity_treat": [1.2, 0.7, 0.5, 0.8, 0.6, 2.0, 1.3, 0.7, 1.1, 1.4]
+    })
+
+visual_acuity
+```
+
+In this table:
+
+- `acuity_control` means the measured *visual acuity* if the child were to play outside fewer than 10 hours per week from age 3 to age 6;
+- `acuity_treat` means the measured *visual acuity* if the child were to play outside at least 10 hours per week from ages 3 to 6\
+-   Both of these potential outcomes *at the child level* would be measured at the same time, when the child is 6.
+
+## Treatment effect
+
+Compute the individual treatment effect for each of the ten children. Name this newly created column `tau` and attach it to the `visual_acuity` table. 
+
+```{python}
+# Use this code chunk to show your code work
+```
+
+## Story time
+
+Tell a "story" that could explain this distribution of treatment effects. In particular, discuss what might cause some children to have different treatment effects than others.
+
+::: {.answer} 
+Fill this in. 
+::: 
+
+## True ATE
+
+For this population, what is the average of the treatment effects that you have just calculated? 
+
+```{python}
+# Use this code chunk to show your code work
+```
+
+## How many splits are possible?
+
+How many different ways (every possible way) are there to split the children into a treatment versus a control group? (In order for these two groups to have membership, you can explicitly exclude two randomizations: the randomization where all units are in treatment, and the complementary randomization where all units are in control.)
+
+```{python}
+# Use this code chunk to show your code/work
+```
+
+If you assign kids to treatment at random, is any one of these possibilities more (or less) likely to occur than another? Why or why not? 
+
+::: {.answer} 
+Fill this in. 
+::: 
+
+## Average of Estimated Treatment Effects 
+
+For each of the randomizations that you proposed, compute the estimated average treatment effect of the randomization. 
+
+```{python}
+# Use this code chunk to show your code/work
+```
+
+## Even-Odd split
+
+Suppose that when we actually run the experiment, we happen to get an even-odd split. This means, we happen to randomly assign the odd-numbered children to treatment and the even-numbered children to control. 
+
+What is the estimate of the ATE you would reach under this assignment? In what sense is this the "right" esetimate? Is it acceptable that this estimate does not eactly match the average of $\tau$? 
+
+```{python}
+# Use this code chunk to show your code work
+```
+
+::: {.answer} 
+Fill this in.
+::: 
+
+## Observational study
+
+Suppose that we decide it is too hard to control the behavior of the children, so we do an observational study instead. Children 1-5 choose to play an average of more than 10 hours per week from age 3 to age 6, while Children 6-10 play less than 10 hours per week. Compute the difference in means from the resulting observational data.
+
+```{python}
+# Use this code chunk to show your code work
+```
+
+## Observational ATE
+
+Compare your answer in `Observational study` to the true ATE. In your own words what causes the difference? Does this mean that the estimator is a biased or an unbiased estimator? Does this mean that the estimate is biased or unbiased?
+
+```{python}
+# Use this code chunk to show your code work (if needed)
+```
